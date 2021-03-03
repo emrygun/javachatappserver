@@ -1,6 +1,7 @@
 package com.emrygun;
 
 public interface UserThreadInterface {
+    //Status constants
     public static final int S_MESSAGE   = 1;
     public static final int U_MESSAGE   = 2;
     public static final int USERNAME    = 3;
