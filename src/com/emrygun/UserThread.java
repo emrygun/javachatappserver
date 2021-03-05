@@ -43,6 +43,9 @@ public class UserThread extends Thread implements UserThreadInterface{
 
             //Get username and add it
             userName = reader.readLine();
+
+            if (userName.equals(null)) return;
+
             server.addUserName(userName);
 
             //Broadcast new connection
@@ -96,9 +99,9 @@ public class UserThread extends Thread implements UserThreadInterface{
         server.broadcast(disconnectMessage(this.userName), this);
     }
 
-    //Get user message and broadcast it
+    //Get user message and if it's a user message broadcast it
     void broadcastUserMessage() throws IOException {
-        clientMessage = reader.readLine();
+        if((clientMessage = reader.readLine()) != null)
         server.broadcast(userMessage(this.userName, clientMessage), this);
     }
 

@@ -1,5 +1,7 @@
 package com.emrygun;
 
+import java.util.Iterator;
+
 public interface UserThreadInterface {
     //Status constants
     public static final int S_MESSAGE   = 1;
@@ -19,9 +21,12 @@ public interface UserThreadInterface {
 
     default String userListMessage(ChatAppServer server) {
         String returnMessage = String.valueOf(USERLIST);
+        Iterator<String> t = server.getUserNames().iterator();
         //Create string of users
-        for (String t : server.getUserNames())
-            returnMessage = returnMessage + "/1/" + t;
+        do {
+            returnMessage = returnMessage + t.next() ;
+            if (t.hasNext()) returnMessage = returnMessage + "/1/";
+        } while (t.hasNext());
         return returnMessage;
     }
     default String connectionMessage(String username) {
