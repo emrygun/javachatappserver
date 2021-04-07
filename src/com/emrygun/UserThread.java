@@ -20,6 +20,9 @@ public class UserThread extends Thread implements UserThreadInterface{
     private BufferedReader reader;
     private OutputStream output;
 
+    //Create PrintWriter for logs
+    private FileWriter logWriter = new FileWriter("logs/messageLogs.log");
+
     //Constructor
     public UserThread(Socket socket, ChatAppServer server) throws IOException {
         this.socket = socket;
@@ -101,8 +104,10 @@ public class UserThread extends Thread implements UserThreadInterface{
 
     //Get user message and if it's a user message broadcast it
     void broadcastUserMessage() throws IOException {
-        if((clientMessage = reader.readLine()) != null)
-        server.broadcast(userMessage(this.userName, clientMessage), this);
+        if((clientMessage = reader.readLine()) != null) {
+            server.broadcast(userMessage(this.userName, clientMessage), this);
+            writeLog(this.userName, clientMessage, logWriter);
+        }
     }
 
     //Sends Message
