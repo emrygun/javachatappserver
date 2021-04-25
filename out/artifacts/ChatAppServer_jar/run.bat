@@ -1,0 +1,1 @@
+java -jar ChatAppServer.jar 8081
