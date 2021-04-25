@@ -1,10 +1,12 @@
 package com.emrygun;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Check for args count
         if (args.length < 1) {
-            System.out.println("Syntax: java ChatAppServer <port-number>");
+            System.out.println("Syntax: java ChatAppServer <port>");
             System.exit(0);
         }
 

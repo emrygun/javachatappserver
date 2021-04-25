@@ -20,8 +20,6 @@ public class UserThread extends Thread implements UserThreadInterface{
     private BufferedReader reader;
     private OutputStream output;
 
-    //Create PrintWriter for logs
-    private FileWriter logWriter = new FileWriter("logs/messageLogs.log");
 
     //Constructor
     public UserThread(Socket socket, ChatAppServer server) throws IOException {
@@ -63,7 +61,7 @@ public class UserThread extends Thread implements UserThreadInterface{
         } catch (SocketException ex) {
             Disconnect();
         } catch (IOException ex) {
-            System.out.println("Error in UserThread: " + ex.getMessage());
+            System.out.println("UserThread Hatasi: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -73,14 +71,14 @@ public class UserThread extends Thread implements UserThreadInterface{
         if (server.hasUsers()) {
             writer.println(userListMessage(server));
         } else {
-            writer.println(serverMessage("No other users connected"));
+            writer.println(serverMessage("Katilan kullanici yok"));
         }
     }
 
     //Grant new connection
     void newConnection() {
         //Connection Message
-        serverMessage =  serverMessage("New user connected: " + userName);
+        serverMessage =  serverMessage("Yeni kullanici katildi: " + userName);
         server.broadcast(serverMessage, this);
 
         //Send username so clients can add it to their list
@@ -94,10 +92,10 @@ public class UserThread extends Thread implements UserThreadInterface{
         try {
             socket.close();
         } catch (IOException e) {
-            System.out.println("Could not close the socket");
+            System.out.println("Soket kapatilamadi.");
         }
 
-        serverMessage = serverMessage(userName + " has quited");
+        serverMessage = serverMessage(userName + " sunucudan ayrildi.");
         server.broadcast(serverMessage, this);
         server.broadcast(disconnectMessage(this.userName), this);
     }
@@ -106,14 +104,7 @@ public class UserThread extends Thread implements UserThreadInterface{
     void broadcastUserMessage() throws IOException {
         if((clientMessage = reader.readLine()) != null) {
             server.broadcast(userMessage(this.userName, clientMessage), this);
-            writeLog(this.userName, clientMessage, logWriter);
         }
     }
-
-    //Sends Message
-    void sendMessage(String message) {
-        writer.println(message);
-    }
-
 
 }
