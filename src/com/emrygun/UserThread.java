@@ -107,4 +107,7 @@ public class UserThread extends Thread implements UserThreadInterface{
         }
     }
 
+    void sendMessage(String message) {
+        writer.println(message);
+    }
 }
